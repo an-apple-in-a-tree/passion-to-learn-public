@@ -3,6 +3,9 @@ import "./App.css";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 import QuestionCard from "./components/Card";
 import AOS from "aos";
+import { Theme } from '@radix-ui/themes';
+import AIStudyAssistant from './components/AIStudyAssistant';
+import '@radix-ui/themes/styles.css';
 
 document.addEventListener("DOMContentLoaded", (e) => {
   AOS.init({
@@ -11,6 +14,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     once: true,
   });
 });
+
 function App() {
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]); // Array of questions
@@ -116,127 +120,16 @@ function App() {
   };
 
   return (
-    <div className="sans">
-      <div className="bg-header relative h-screen w-screen overflow-hidden rounded-lg">
-        <div className="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50 rounded-lg">
-          <h1 className="serif text-white font-black text-9xl my-8">
-            Passion to Learn
+    <Theme>
+      <div className="min-h-screen bg-gray-100 py-8">
+        <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold text-center mb-8">
+            AI-Powered Study Assistant
           </h1>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="icon icon-tabler icon-tabler-school"
-            width="200"
-            height="200"
-            viewBox="0 0 24 24"
-            strokeWidth="1.5"
-            stroke="#ffffff"
-            fill="none"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
-            <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
-          </svg>
+          <AIStudyAssistant />
         </div>
       </div>
-      <div className="relative h-0 w-screen overflow-hidden rounded-lg"></div>
-
-      <div className="flex w-full bg-black text-white">
-        <img
-          data-aos="fade-up"
-          src="https://img.freepik.com/premium-photo/ai-generated-cute-young-girl-student-studying_988987-616.jpg"
-          className="mr-8 w-[600px] h-full"
-        />
-
-        <div className="h-96 w-full pb-16">
-          <p className={`text-2xl p-20`}>
-            Get started for free and explore the power of AI-assisted learning.
-            Dive in now.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex w-full bg-black">
-        <div className="h-96 w-full text-white p-20 text-2xl">
-          <h3 className="text-3xl text-extrabold">
-            Join the Learning Revolution:{" "}
-          </h3>
-          <p className={`text-xl mt-4`}>
-            <ul>
-              <li> - Enhance your study sessions</li>
-              <li> - Supplement your learning materials</li>
-              <li> - Dive deeper into any your education</li>
-            </ul>
-          </p>
-        </div>
-        <img
-          data-aos="fade-right"
-          src="https://magazine.alumni.ubc.ca/sites/default/files/styles/max_1300x1300/public/2023-09/AIart-1920x1080.jpg?itok=i4Yw51WT"
-          className="ml-8 w-2/3 h-full"
-        />
-      </div>
-
-      <div className="flex w-full bg-black text-white">
-        <img
-          data-aos="fade-up"
-          src="https://substackcdn.com/image/fetch/f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fbucketeer-e05bbc84-baa3-437e-9518-adb32be77984.s3.amazonaws.com%2Fpublic%2Fimages%2F269219ca-d567-4d31-ba47-231d30ead8b1_1024x1024.png"
-          className="mr-8 w-[600px] h-full"
-        />
-
-        <div className="h-96 w-full pb-16">
-          <p className={`text-2xl p-20`}>
-          Our AI generates thought-provoking multiple-choice questions that meet the rigorous standards of higher education institutions worldwide.          </p>
-        </div>
-      </div>
-
-
-      <main
-        data-aos="zoom-in-up"
-        className="bg-grey-200 flex flex-col mt-12 items-center justify-center w-full px-12 h-full"
-      >
-        <h1 className="text-3xl serif mb-4">
-          Enter Your Notes to start reviewing:{" "}
-        </h1>
-        <textarea
-          value={classNotes}
-          onChange={(e) => setClassNotes(e.target.value)}
-          placeholder="Enter class notes here..."
-          rows={20}
-          cols={50}
-          className="rounded-lg mx-4 w-5/6 h-96 p-8 border-2 border-black"
-        />
-
-        <button
-          onClick={fetchData}
-          className="bg-black text-white p-4 my-8 rounded-xl"
-        >
-          Review Now!
-        </button>
-
-        <div className="m-4 w-3/4">
-          <div className="bg-pink-100 p-4 mb-8">
-            <h2 className="text-lg font-bold">Main Idea: </h2>
-            {summary && <p className="my-4 font-medium"> {summary}</p>}
-          </div>
-          {questions.map((question, index) => (
-            <QuestionCard
-              key={index}
-              question={question}
-              answers={allAnswers[index]}
-              correctAnswerIndex={correctAnswerIndices[index]}
-            />
-          ))}
-        </div>
-      </main>
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-        <path
-          fill="#000000"
-          fill-opacity="1"
-          d="M0,224L30,229.3C60,235,120,245,180,213.3C240,181,300,107,360,101.3C420,96,480,160,540,208C600,256,660,288,720,261.3C780,235,840,149,900,106.7C960,64,1020,64,1080,90.7C1140,117,1200,171,1260,181.3C1320,192,1380,160,1410,144L1440,128L1440,320L1410,320C1380,320,1320,320,1260,320C1200,320,1140,320,1080,320C1020,320,960,320,900,320C840,320,780,320,720,320C660,320,600,320,540,320C480,320,420,320,360,320C300,320,240,320,180,320C120,320,60,320,30,320L0,320Z"
-        ></path>
-      </svg>
-    </div>
+    </Theme>
   );
 }
 
@@ -247,12 +140,12 @@ export default App;
 Knowledge and the Knower
 
 Content Test
-“It is the mark of an educated mind to be able to entertain a thought without accepting it.” 
+"It is the mark of an educated mind to be able to entertain a thought without accepting it." 
 					- Aristotle
 - An educated mind is able to critically evaluate and consider a differing opinions that do not align with their own worldview. This is important because while we hold our personal worldviews to a great degree of certainty (ie. we trust in them a lot and believe that we are correct), worldviews have their own pitfalls including brain biases, Our worldviews are a collection of ideals and values that we possess through the influence of our cultures and personal experiences. While our worldviews guide us through our decision-making processes in many different areas such as politics and religion
 Quotes
 Knowledge and the Knower
-“It is the mark of an educated mind to be able to entertain a thought without accepting it.” 
+"It is the mark of an educated mind to be able to entertain a thought without accepting it." 
 			
 
 Terminology
@@ -316,7 +209,7 @@ Left Wing
 Democratic Socialism
 Social Democracy
 Social freedom 
-Collective action or trade union’s right to collectively bargain 
+Collective action or trade union's right to collectively bargain 
 Class Solidarity 
 High govt intervention in economy - public sector
 Distributive justice 
